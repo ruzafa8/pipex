@@ -1,7 +1,7 @@
 SRCS		= src/main.c
 OBJS		= ${SRCS:.c=.o}
 OBJS_BONUS	= ${SRCS_BONUS:.c=.o}
-NAME		= push_swap
+NAME		= pipex
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror -I.
 RM			= rm -f
