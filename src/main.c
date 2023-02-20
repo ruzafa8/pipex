@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/20 21:01:42 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:24:01 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 void	exec(char **command, char **env)
 {
 	int	res;
-	//res = access(command[0], X_OK);
-	res = 0;
+
+	res = px_check_access(command[0], env);
+	// Verified that exists and can be executed
 	if (res == 0)
 	{
-		// Verified that exists and can be executed
 		if (execve(command[0], command, env) == -1)
 		{
 			perror(strerror(errno));
-			//exit(errno);
+			exit(errno);
 		}
 	}
 	else
 	{
 		ft_printf("Command %s does not exists or has not got permission.\n", command[0]);
+		exit(127); // Command not found exit
 	}
 }
 
