@@ -6,32 +6,11 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/20 21:24:01 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:46:44 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	exec(char **command, char **env)
-{
-	int	res;
-
-	res = px_check_access(command[0], env);
-	// Verified that exists and can be executed
-	if (res == 0)
-	{
-		if (execve(command[0], command, env) == -1)
-		{
-			perror(strerror(errno));
-			exit(errno);
-		}
-	}
-	else
-	{
-		ft_printf("Command %s does not exists or has not got permission.\n", command[0]);
-		exit(127); // Command not found exit
-	}
-}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -51,7 +30,7 @@ int	main(int argc, char **argv, char **env)
 		dup2(fd, 0);
 		dup2(fds[1], 1);
 		command = ft_split(argv[2], ' ');
-		exec(command, path);
+		px_exec(command, path);
 		exit(0);
 	}
 	else
@@ -63,8 +42,8 @@ int	main(int argc, char **argv, char **env)
 		close(fd2);
 		close(fds[1]);
 		command = ft_split(argv[3], ' ');
-		exec(command, path);
-		ft_printf("\nfinished waiting for command.\n");
+		ft_printf("\nfinished waiting for command, exit code of last: %d.\n", errno);
+		px_exec(command, path);
 	}
 	px_free_path(path);
 	return (0);

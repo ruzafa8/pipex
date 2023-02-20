@@ -1,4 +1,5 @@
-SRCS		= src/main.c src/parse_env.c src/check_access.c
+SRCS		= src/main.c src/parse_env.c src/check_access.c \
+			  src/exec.c
 OBJS		= ${SRCS:.c=.o}
 OBJS_BONUS	= ${SRCS_BONUS:.c=.o}
 NAME		= pipex

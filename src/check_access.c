@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:05:19 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/20 21:23:40 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:41:44 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,16 @@ int	px_check_access(char *command, char **env)
 	int		i;
 	int		res;
 
+	if (access(command, X_OK) == 0)
+		return (0);
 	i = 0;
 	res = -1;
 	while (env[i] && res == -1)
 	{
 		full_command = px_strjoin(env[i], command);
+		if (!full_command)
+			return (-1);
+		ft_printf("Lets try with %s...\n", full_command);
 		if (access(full_command, X_OK) == 0)
 			res = 0;
 		free(full_command);
