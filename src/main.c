@@ -6,66 +6,18 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/19 21:09:36 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:11:52 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*concat_slash(char *c)
-{
-	char	*res;
-	size_t	len;
-
-	len = ft_strlen(c);
-	res = (char *) ft_calloc(len + 2, sizeof(char));
-	ft_memcpy(res, c, len);
-	res[len + 1] = '/';
-	return (res);
-}
-
-char	**get_path(char **env)
-{
-	char	**arg;
-	char	**res;
-	char	*true_res;
-
-	while (env)
-	{
-		arg = ft_split(*env, '=');
-		if (ft_strncmp(arg[0], "PATH", 4) == 0)
-		{
-			free(arg[0]);
-			res = ft_split(arg[1], ':');
-			int i = 0;
-			while (res[i])
-			{
-				true_res = concat_slash(res[i]);
-				free(res[i]);
-				res[i] = true_res;
-				i++;
-			}
-			free(arg[1]);
-			free(arg);
-			return (res);
-		}
-		else
-		{
-			free(arg[0]);
-			free(arg[1]);
-			free(arg);
-		}
-		env++;
-	}
-	return (0);
-}
-
 void	exec(char **command, char **env)
 {
 	int	res;
-	res = access(command[0], F_OK | X_OK);
-	ft_printf("%d", res);
-	if (res)
+	res = access(command[0], X_OK);
+	ft_printf("access: %d", res);
+	if (res == 0)
 	{
 		// Verified that exists and can be executed
 		execve(command[0], command, env);
@@ -86,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc < 5)
 		return (0);
 	pipe(fds);
-	path = get_path(env);
+	path = px_get_path(env);
 	pid = fork();
 	if (pid == 0) // fillo
 	{
@@ -109,5 +61,6 @@ int	main(int argc, char **argv, char **env)
 		exec(command, path);
 		ft_printf("\nfinished waiting for command.\n");
 	}
+	px_free_path(path);
 	return (0);
 }
