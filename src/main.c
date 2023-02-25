@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/20 21:46:44 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:28:45 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **env)
 		dup2(fd, 0);
 		dup2(fds[1], 1);
 		command = ft_split(argv[2], ' ');
-		px_exec(command, path);
+		px_exec(command, path, env);
 		exit(0);
 	}
 	else
@@ -39,11 +39,9 @@ int	main(int argc, char **argv, char **env)
 		int fd2 = open(argv[4], O_WRONLY);
 		dup2(fds[0], 0);
 		dup2(fd2, 1);
-		close(fd2);
 		close(fds[1]);
 		command = ft_split(argv[3], ' ');
-		ft_printf("\nfinished waiting for command, exit code of last: %d.\n", errno);
-		px_exec(command, path);
+		px_exec(command, path, env);
 	}
 	px_free_path(path);
 	return (0);

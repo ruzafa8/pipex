@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 19:36:41 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/20 20:00:08 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:57:32 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*concat_slash(char *c)
 	if (!res)
 		return (0);
 	ft_memcpy(res, c, len);
-	res[len + 1] = '/';
+	res[len] = '/';
 	return (res);
 }
 

@@ -6,13 +6,13 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:05:19 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/20 21:41:44 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:25:57 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	*px_strjoin(char *s1, char *s2)
+static char	*px_strjoin(const char *s1, const char *s2)
 {
 	char	*res;
 	size_t	i;
@@ -33,26 +33,23 @@ static char	*px_strjoin(char *s1, char *s2)
 	return (res);
 }
 
-int	px_check_access(char *command, char **env)
+char	*px_check_access(char *command, char **path)
 {
 	char	*full_command;
 	int		i;
-	int		res;
 
 	if (access(command, X_OK) == 0)
-		return (0);
+		return (command);
 	i = 0;
-	res = -1;
-	while (env[i] && res == -1)
+	while (path[i])
 	{
-		full_command = px_strjoin(env[i], command);
+		full_command = px_strjoin(path[i], command);
 		if (!full_command)
-			return (-1);
-		ft_printf("Lets try with %s...\n", full_command);
+			return (0);
 		if (access(full_command, X_OK) == 0)
-			res = 0;
+			return (full_command);
 		free(full_command);
 		i++;
 	}
-	return (res);
+	return (0);
 }
