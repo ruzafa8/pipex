@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/25 18:40:01 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:41:44 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **env)
 			int fd2 = open(argv[4], O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
 			dup2(fd2, 1);
 			dup2(fds[0], 0);
+			close(fds[1]);
 			command = ft_split(argv[3], ' ');
 			px_exec(command, path, env);
 		}
