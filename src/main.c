@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/25 18:32:28 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:40:01 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	main(int argc, char **argv, char **env)
 	pipe(fds);
 	path = px_get_path(env);
 	pid1 = fork();
+	if (pid1 < 0)
+		return (0);
 	if (pid1 == 0) // fillo
 	{
 		int fd = open(argv[1], O_RDONLY);
@@ -39,6 +41,8 @@ int	main(int argc, char **argv, char **env)
 	else
 	{
 		pid2 = fork();
+		if (pid2 < 0)
+			return (0);
 		if (pid2 == 0)
 		{
 			int fd2 = open(argv[4], O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
