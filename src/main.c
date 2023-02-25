@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/25 16:28:45 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:59:43 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **env)
 	else
 	{
 		waitpid(pid, 0, 0);
-		int fd2 = open(argv[4], O_WRONLY);
+		int fd2 = open(argv[4], O_WRONLY | O_CREAT);
 		dup2(fds[0], 0);
 		dup2(fd2, 1);
 		close(fds[1]);
