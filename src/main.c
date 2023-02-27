@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/25 18:41:44 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:22:48 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **env)
 	char	**path;
 
 	if (argc < 5)
-		return (0);
+		return (103);
 	pipe(fds);
 	path = px_get_path(env);
 	pid1 = fork();

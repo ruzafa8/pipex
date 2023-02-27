@@ -6,14 +6,12 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:25:57 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/25 16:27:41 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:07:13 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-#include <unistd.h>
-extern char **environ;
 void	px_exec(char **command, char **path, char **env)
 {
 	char	*full_command;
