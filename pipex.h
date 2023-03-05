@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:30:41 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/02/25 16:25:45 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/03/05 17:32:28 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ void	px_free_path(char **path);
 
 char	*px_check_access(char *command, char **path);
 
-void	px_exec(char **command, char **path, char **env);
+int		px_exec(char **command, char **path, char **env);
 
 #endif
