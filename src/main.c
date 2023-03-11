@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/03/11 20:07:11 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/03/11 20:52:37 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,75 +18,76 @@ void	set_std(int fd_in, int fd_out)
 	dup2(fd_out, 1);
 }
 
-void	first_command(int *fd_pipe,int fd_in, int fd_out, char *command, char **path, char **env)
+void	first_command(int fd_in, int fd_out, char *command, t_data *data)
 {
 	int	res;
 
 	set_std(fd_in, fd_out);
-	close(fd_pipe[0]);
-	close(fd_pipe[1]);
-	res = px_exec(ft_split(command, ' '), path, env);
+	close(data->pipe[0]);
+	close(data->pipe[1]);
+	res = px_exec(ft_split(command, ' '), data->path, data->env);
 	perror(strerror(res));
 	close(fd_in);
 }
 
-void	second_command(int *fd_pipe, int fd_in, int fd_out, char *command, char **path, char **env)
+void	second_command(int fd_in, int fd_out, char *command, t_data *data)
 {
 	int	res;
 
 	set_std(fd_in, fd_out);
-	close(fd_pipe[1]);
-	res = px_exec(ft_split(command, ' '), path, env);
+	close(data->pipe[1]);
+	res = px_exec(ft_split(command, ' '), data->path, data->env);
 	perror(strerror(res));
 }
 
-void	pipex(int fd_in, char *command1, char *command2, int fd_out, char **path, char **env)
+void	pipex(char *command1, char *command2, t_data *data)
 {
-	int	pid1;
-	int	pid2;
-	int	fds[2];
-	int	result_code;
+	int		pid1;
+	int		pid2;
+	int		result_code;
 
-	pipe(fds);
+	pipe(data->pipe);
 	pid1 = fork();
 	if (pid1 < 0)
 		exit(pid1);
 	if (pid1 == 0)
-		first_command(fds, fd_in, fds[1], command1, path, env);
+		first_command(data->in, data->pipe[1], command1, data);
 	else
 	{
 		pid2 = fork();
 		if (pid2 < 0)
 			exit(pid2);
 		if (pid2 == 0)
-			second_command(fds, fds[0], fd_out, command2, path, env);
+			second_command(data->pipe[0], data->out, command2, data);
 		else
 		{
-			close(fds[0]);
-			close(fds[1]);
+			close(data->pipe[0]);
+			close(data->pipe[1]);
 			waitpid(pid1, 0, 0);
 			waitpid(pid2, &result_code, 0);
 			if (WIFEXITED(result_code))
 				exit(WEXITSTATUS(result_code));
 		}
 	}
-
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	char	**path;
-	int		fd;
-	int		fd2;
+	int		permission;
+	t_data	data;
 
-	if (argc < 5)
+	if (argc != 5)
 		return (103);
-	path = px_get_path(env);
-	fd = open(argv[1], O_RDONLY);
-	fd2 = open(argv[4], O_RDWR | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (fd2 < 0)
+	data.env = env;
+	data.path = px_get_path(env);
+	data.in = open(argv[1], O_RDONLY);
+	if (data.in < 0)
 		return (errno);
-	pipex(fd, argv[2], argv[3], fd2, path, env);
-	px_free_path(path);
+	permission = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	data.out = open(argv[4], O_RDWR | O_TRUNC | O_CREAT, permission);
+	if (data.out < 0)
+		return (errno);
+	pipex(argv[2], argv[3], &data);
+	px_free_path(data.path);
 	return (errno);
 }
