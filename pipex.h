@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:30:41 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/03/11 20:34:13 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:09:35 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,9 @@ void	px_free_path(char **path);
 char	*px_check_access(char *command, char **path);
 
 int		px_exec(char **command, char **path, char **env);
+void	px_pipex(char *command1, char *command2, t_data *data);
+
+/* utils file */
+void	px_setstd(int fd_in, int fd_out);
 
 #endif
