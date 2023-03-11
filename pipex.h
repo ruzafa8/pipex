@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:30:41 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/03/11 21:09:35 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:23:10 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 
 typedef struct s_data
 {
-	int	*pipe;
-	int	in;
-	int	out;
-	char *command;
-	char **path;
-	char **env;
-} t_data;
+	int		*pipe;
+	int		in;
+	int		out;
+	char	*command;
+	char	**path;
+	char	**env;
+}			t_data;
 
 char	**px_get_path(char **env);
 void	px_free_path(char **path);

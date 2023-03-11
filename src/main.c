@@ -6,17 +6,11 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 17:01:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/03/11 21:04:14 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:17:05 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	set_std(int fd_in, int fd_out)
-{
-	dup2(fd_in, 0);
-	dup2(fd_out, 1);
-}
 
 int	main(int argc, char **argv, char **env)
 {
